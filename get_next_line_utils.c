@@ -42,8 +42,6 @@ char	*buf_alloc(char *old, int nth)
 	return(new);
 }
 
-
-
 int check_eof(char *buffer)
 {
 	int	i;
@@ -70,9 +68,6 @@ int check_nl(char *buffer)
 			return (i);
 		i++;
 	}
-	eof = check_eof(buffer);
-	if (eof >= 0)
-		return (eof);
 	return(-1);
 }
 

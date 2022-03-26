@@ -11,6 +11,7 @@ int 	check_nl(char *buffer);
 int 	check_eof(char *buffer);
 char	*ft_strcpy(char *dest, char *src);
 char 	*ft_strncat(char *dest, char *src, int n);
-int ft_strlen(char *s);
+int		ft_strlen(char *s);
+char 	*get_next_line(int fd);
 
 #endif

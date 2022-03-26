@@ -1,6 +1,14 @@
 #include "get_next_line.h"
 
-char *get_next_line(int fd, char **line)
+int		end_of_substr(int bytes_read, int nl)
+{
+	if (bytes_read <= nl)
+		return (bytes_read);
+	else
+		return (nl);
+}
+
+char	*get_next_line(int fd)
 {
 	static int	bytes_read = 0;
 	static char	*buffer = NULL;
@@ -17,41 +25,32 @@ char *get_next_line(int fd, char **line)
 		bigbuffer = malloc(BUFFER_SIZE + 1);
 		bigbuffer[0] = 0;
 		buffer[0] = 0;
-
 	}
-	// if (!buffer)
-	// 	return (-1);
 	if (bigbuffer[0] == 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		ft_strncat(bigbuffer, buffer, BUFFER_SIZE);
 	}
-	
 	while (bytes_read > 0)
 	{
 		nl = check_nl(bigbuffer);
 		if (nl >= 0)
 		{
-			result = ft_substr(bigbuffer, 0, nl);
-			// printf("result: %s\n", result );
+			result = ft_substr(bigbuffer, 0, nl + 1);
 			bigbuffer = ft_substr(bigbuffer, nl + 1, ft_strlen(bigbuffer));
-			bytes_read -= ft_strlen(result) + 1;
+			if (!result)
+				return (NULL);
 			return(result);
 		}
-		else if (check_eof(bigbuffer) >= 0)
+		else if (bytes_read == 0)
 		{
-			return (bigbuffer);
-		}
-		else if (check_eof(bigbuffer) == 0)
-		{
-			return (NULL);
+			bytes_read = read(fd, buffer, BUFFER_SIZE);
+			if (bytes_read == 0)
+				return (NULL);
 		}
 		else
 		{
-			// printf("before realloc: %s\n", bigbuffer);
 			bigbuffer = buf_alloc(bigbuffer, index);
-			// printf("after realloc: %s\n", bigbuffer);
-			
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read > 0)
@@ -60,26 +59,34 @@ char *get_next_line(int fd, char **line)
 	}
 	if (bytes_read == 0)
 	{
+		// printf("bytesread return\n");
 		free(buffer);
 		buffer = NULL;
-		return(bigbuffer);
+		return(NULL);
 	}
 	return (0);
 }
 
-// int main(void)
-// {
-// 	char **test;
-// 	int file = open("test", O_RDONLY);
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	printf("result: %s\n", get_next_line(file, test));
-// 	int file2 = open("test2", O_RDONLY);
-// 	printf("result: %s\n", get_next_line(file2, test));
-// 	printf("result: %s\n", get_next_line(file2, test));
-// 	printf("result: %s\n", get_next_line(file2, test));
-// 	printf("result: %s\n", get_next_line(file2, test));
-// }
+int main(void)
+{
+	int file = open("test", O_RDONLY);
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+	printf("result: _%s", get_next_line(file));
+
+	printf("\nnewfile\n");
+	int file2 = open("test2", O_RDONLY);
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+	printf("result: _%s_\n", get_next_line(file2));
+
+}

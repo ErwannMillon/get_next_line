@@ -1,10 +1,11 @@
 SRCS := get_next_line.c get_next_line_utils.c
-NAME = get_next_line
+NAME = a.out
 OBJS := $(SRCS:%.c=%.o)
 %.o: %.c
-	gcc -c $^ 
+	gcc -ggdb -c $^ -D BUFFER_SIZE=12
 $(NAME): $(OBJS)
-	gcc $(OBJS) -o $(NAME)
+	gcc -ggdb $(OBJS) -o $(NAME) 
+all: $(NAME)
 asan: $(OBJS)
 	gcc -fsanitize=address $(OBJS) -o $(NAME)
 clean:
