@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmillon <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/27 04:23:11 by gmillon           #+#    #+#             */
+/*   Updated: 2022/03/27 04:23:14 by gmillon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-int ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -10,56 +22,30 @@ int ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strcpy(char *dest, char *src)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(src);
-	while (src[i])
-	{
-        dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
-}
-
-char	*buf_alloc(char *old, int nth)
+char	*buf_alloc(char *old)
 {
 	char		*new;
 	static int	size = 1;
-	// if (!nth)
-	// 	size = BUFFER_SIZE;
-	// else
-	// 	size += BUFFER_SIZE;
-	(void)nth;
+	int			i;
+
+	i = 0;
 	size += BUFFER_SIZE;
 	new = malloc(size + 1);
-	ft_strcpy(new, old);
-	free(old);
-	return(new);
-}
-
-int check_eof(char *buffer)
-{
-	int	i;
-	
-	i = 0;
-	while (buffer[i])
+	if (!new)
+		return (NULL);
+	while (old[i])
 	{
-		if (buffer[i] == EOF)
-			return (i);
+		new[i] = old[i];
 		i++;
 	}
-	return(-1);
+	new[i] = 0;
+	free(old);
+	return (new);
 }
 
-int check_nl(char *buffer)
+int	check_nl(char *buffer)
 {
 	int	i;
-	int eof;
 
 	i = 0;
 	while (buffer[i])
@@ -68,10 +54,10 @@ int check_nl(char *buffer)
 			return (i);
 		i++;
 	}
-	return(-1);
+	return (-1);
 }
 
-char *ft_strncat(char *dest, char *src, int n)
+char	*ft_strncat(char *dest, char *src, int n)
 {
 	int	i;
 	int	j;
@@ -85,11 +71,11 @@ char *ft_strncat(char *dest, char *src, int n)
 		dest[i + j] = src[j];
 		j++;
 	}
-	dest[i+j] = 0;
+	dest[i + j] = 0;
 	return (dest);
 }
 
-char *ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_free(char *s, unsigned int start, size_t len, int tofree)
 {
 	size_t	i;
 	char	*sub;
@@ -105,5 +91,7 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	sub[i] = 0;
+	if (tofree)
+		free(s);
 	return (sub);
 }
