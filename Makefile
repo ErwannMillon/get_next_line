@@ -1,8 +1,8 @@
-SRCS := get_next_line.c get_next_line_utils.c
+SRCS := main.c get_next_line.c get_next_line_utils.c
 NAME = a.out
 OBJS := $(SRCS:%.c=%.o)
 %.o: %.c
-	gcc -ggdb -c $^ -D BUFFER_SIZE=12
+	gcc -ggdb -c $^ -D BUFFER_SIZE=1
 $(NAME): $(OBJS)
 	gcc -ggdb $(OBJS) -o $(NAME) 
 all: $(NAME)
