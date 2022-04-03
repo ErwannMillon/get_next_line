@@ -6,7 +6,7 @@
 /*   By: gmillon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 04:23:06 by gmillon           #+#    #+#             */
-/*   Updated: 2022/03/27 04:23:17 by gmillon          ###   ########.fr       */
+/*   Updated: 2022/04/03 19:59:00 by gmillon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,16 @@ int	cleanup(char **buff, char **bigbuff, char **result)
 	return (1);
 }
 
-void	init_buffers(char **buff, char **bigbuff, int *bytes_read, int fd)
+int	init_buffers(char **buff, char **bigbuff, int *bytes_read, int fd)
 {
 	if (!*buff && fd >= 0)
 	{
 		*buff = malloc(BUFFER_SIZE + 1);
+		if (!*buff)
+			return (0);
 		*bigbuff = malloc(BUFFER_SIZE + 1);
+		if (!*bigbuff)
+			return (0);
 		bigbuff[0][0] = 0;
 		buff[0][0] = 0;
 	}
@@ -52,8 +56,11 @@ void	init_buffers(char **buff, char **bigbuff, int *bytes_read, int fd)
 	{
 		*bytes_read = read(fd, *buff, BUFFER_SIZE);
 		*bigbuff = buf_alloc(*bigbuff);
+		if (!*bigbuff)
+			return (0);
 		ft_strncat(*bigbuff, *buff, *bytes_read);
 	}
+	return (1);
 }
 
 char	*seek_loop(int fd, int *b_read, char **bigbuff, char **buff)
@@ -91,7 +98,8 @@ char	*get_next_line(int fd)
 	static char	*bigbuff = NULL;
 	char		*returnval;
 
-	init_buffers(&buff, &bigbuff, &bytes_read, fd);
+	if (!init_buffers(&buff, &bigbuff, &bytes_read, fd))
+		return (NULL);
 	if ((bytes_read <= 0 || fd < 0) && cleanup(&buff, &bigbuff, NULL))
 		return (NULL);
 	returnval = seek_loop(fd, &bytes_read, &bigbuff, &buff);

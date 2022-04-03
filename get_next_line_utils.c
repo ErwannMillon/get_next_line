@@ -6,7 +6,7 @@
 /*   By: gmillon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 04:23:11 by gmillon           #+#    #+#             */
-/*   Updated: 2022/03/27 04:23:14 by gmillon          ###   ########.fr       */
+/*   Updated: 2022/04/03 19:49:41 by gmillon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ char	*ft_substr_free(char *s, unsigned int start, size_t len, int tofree)
 	while (s[start + i] && i < len)
 		i++;
 	sub = malloc((i + 1) * sizeof(char));
+	if (!sub)
+		return (NULL);
 	i = 0;
 	while (s[start + i] && i < len)
 	{
