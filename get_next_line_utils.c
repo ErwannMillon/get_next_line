@@ -6,13 +6,13 @@
 /*   By: gmillon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 04:23:11 by gmillon           #+#    #+#             */
-/*   Updated: 2022/04/03 19:49:41 by gmillon          ###   ########.fr       */
+/*   Updated: 2022/04/10 05:05:01 by gmillon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	ft_slen(char *s)
 {
 	int	i;
 

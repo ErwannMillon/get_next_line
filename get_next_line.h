@@ -6,7 +6,7 @@
 /*   By: gmillon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 04:22:58 by gmillon           #+#    #+#             */
-/*   Updated: 2022/03/27 04:23:18 by gmillon          ###   ########.fr       */
+/*   Updated: 2022/04/10 05:04:33 by gmillon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_substr_free(char *s, unsigned int start, size_t len, int tofree);
 int		check_nl(char *buffer);
 int		check_eof(char *buffer);
 char	*ft_strncat(char *dest, char *src, int n);
-int		ft_strlen(char *s);
+int		ft_slen(char *s);
 char	*get_next_line(int fd);
 
 #endif
